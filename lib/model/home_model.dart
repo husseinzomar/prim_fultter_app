@@ -1,6 +1,7 @@
 import 'package:prim_fultter_app/model/common_model.dart';
 import 'package:prim_fultter_app/model/config_model.dart';
 import 'package:prim_fultter_app/model/grid_nav_model.dart';
+import 'package:prim_fultter_app/model/sales_box_model.dart';
 
 class HomeModel {
 //  ConfigModel config	Object	NonNull
@@ -14,13 +15,15 @@ class HomeModel {
   final List<CommonModel> localNavList;
   final GridNavModel gridNav;
   final List<CommonModel> subNavList;
+  final SalesBoxModel salesBox;
 
   HomeModel(
       {this.config,
       this.bannerList,
       this.localNavList,
       this.gridNav,
-      this.subNavList});
+      this.subNavList,
+      this.salesBox});
 
   Map<String, dynamic> toJson() {
     return {
@@ -29,6 +32,7 @@ class HomeModel {
       'localNavList': localNavList,
       'gridNav': gridNav,
       'subNavList': subNavList,
+      'salesBox': salesBox,
     };
   }
 
@@ -54,6 +58,7 @@ class HomeModel {
       localNavList: localNavList,
       gridNav: GridNavModel.formJson(json['gridNav']),
       subNavList: subNavList,
+      salesBox: SalesBoxModel.formJson(json['salesBox']),
     );
   }
 }

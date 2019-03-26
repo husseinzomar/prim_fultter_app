@@ -79,11 +79,11 @@ class _WebViewState extends State<WebView> {
 
   @override
   void dispose() {
-    super.dispose();
     _onUrlChanged.cancel();
     _onStateChanged.cancel();
     _onHttpError.cancel();
     webviewReference.dispose();
+    super.dispose();
 
     ///销毁web view
   }
@@ -133,6 +133,8 @@ class _WebViewState extends State<WebView> {
       );
     }
     return Container(
+      color: backgroundColor,
+      padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
       child: FractionallySizedBox(
         //FractionallySizedBox设置撑满整个屏幕的宽度或者高度
         widthFactor: 1, //设置宽度的撑满
@@ -147,6 +149,9 @@ class _WebViewState extends State<WebView> {
                   color: backColor,
                 ),
               ),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
             Positioned(
                 left: 0,

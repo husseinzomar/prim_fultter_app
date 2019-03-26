@@ -12,7 +12,7 @@ class GridNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64.0,
+      height: 68.0,
       decoration: BoxDecoration(
         //设置一个装饰器
         color: Colors.white,

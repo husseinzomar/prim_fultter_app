@@ -17,64 +17,106 @@ class CardGridNav extends StatefulWidget {
 class _CardGridNavState extends State<CardGridNav> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _gridNavItems(context),
+    return PhysicalModel(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(6),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: _gridNavItems(context),
+      ),
     );
   }
 
   /// 大卡片
   _gridNavItems(BuildContext context) {
     List<Widget> items = [];
-    if (widget.gridNavModel == null) return null;
+    if (widget.gridNavModel == null) return items;
     if (widget.gridNavModel.hotel != null) {
-      ///酒店
-
+      items.add(_gridNavItem(context, widget.gridNavModel.hotel, true));
     }
-    if (widget.gridNavModel.flight != null) {}
-    if (widget.gridNavModel.travel != null) {}
+    if (widget.gridNavModel.flight != null) {
+      items.add(_gridNavItem(context, widget.gridNavModel.flight, false));
+    }
+    if (widget.gridNavModel.travel != null) {
+      items.add(_gridNavItem(context, widget.gridNavModel.travel, false));
+    }
     return items;
   }
 
-  ///小卡片
+  ///一行卡片
   _gridNavItem(BuildContext context, GridNavItem item, bool first) {
     List<Widget> items = [];
     items.add(_mainItem(item.mainItem));
-    return items;
+    items.add(_doubleItem(context, item.item1, item.item2));
+    items.add(_doubleItem(context, item.item3, item.item4));
+    List<Widget> expandItem = []; //设置所有item填充
+    items.forEach((item) {
+      expandItem.add(Expanded(
+        child: item,
+        flex: 1,
+      ));
+    });
+    Color startColor = Color(int.parse('0xff' + item.startColor));
+    Color endColor = Color(int.parse('0xff' + item.endColor));
+    return Container(
+      height: 88,
+      margin: first ? null : EdgeInsets.only(top: 3),
+      decoration: BoxDecoration(
+        //设置装饰器
+        //线性渐变
+        gradient: LinearGradient(colors: [startColor, endColor]),
+      ),
+      child: Row(
+        children: expandItem,
+      ),
+    );
   }
 
   ///具体的主卡片widget
   _mainItem(CommonModel model) {
     return _warpGesture(
         Stack(
+          alignment: AlignmentDirectional.topCenter,
           //设置为容器布局
           children: <Widget>[
             Image.network(
               model.icon,
               fit: BoxFit.contain, //居中
+              width: 88,
+              height: 121,
               alignment: AlignmentDirectional.bottomEnd, //图片局下
             ),
-            Text(
-              model.title,
-              style: TextStyle(fontSize: 14, color: Colors.white),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(
+                model.title,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
             )
           ],
         ),
         model);
   }
 
-  /// 附属卡片
-  _doubleItem(BuildContext context, CommonModel topIem, CommonModel bottomItem,
-      bool isCenter) {
+  /// 上下附属卡片
+  _doubleItem(
+      BuildContext context, CommonModel topIem, CommonModel bottomItem) {
     return Column(
       children: <Widget>[
-        Expanded(child: _item(context, topIem, true, isCenter)),
+        Expanded(child: _item(context, topIem, true)), //垂直方向上展开
+        Expanded(child: _item(context, bottomItem, false)),
       ],
     );
   }
 
-  _item(BuildContext context, CommonModel item, bool first, bool isCenter) {
+  //具体widget
+  _item(BuildContext context, CommonModel item, bool first) {
     BorderSide side = BorderSide(width: 0.8, color: Colors.white);
     return FractionallySizedBox(
+      //水平方向上展开
       widthFactor: 1, //设置宽度撑满父布局
       child: Container(
         //设置装饰器
@@ -101,7 +143,7 @@ class _CardGridNavState extends State<CardGridNav> {
     );
   }
 
-  /// 自动适配点击事件
+  /// 封装点击事件
   _warpGesture(Widget widget, CommonModel model) {
     return GestureDetector(
       child: widget,
