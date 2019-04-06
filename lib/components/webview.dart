@@ -129,7 +129,7 @@ class _WebViewState extends State<WebView> {
     if (widget.hideAppBar ?? false) {
       return Container(
         color: backgroundColor,
-        height: 45,
+        height: 30,
       );
     }
     return Container(
@@ -150,7 +150,7 @@ class _WebViewState extends State<WebView> {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               },
             ),
             Positioned(

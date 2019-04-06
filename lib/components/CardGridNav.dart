@@ -17,7 +17,7 @@ class CardGridNav extends StatefulWidget {
 class _CardGridNavState extends State<CardGridNav> {
   @override
   Widget build(BuildContext context) {
-    return PhysicalModel(
+    return PhysicalModel(//整体多个Widget设置圆角
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(6),
       clipBehavior: Clip.antiAlias,

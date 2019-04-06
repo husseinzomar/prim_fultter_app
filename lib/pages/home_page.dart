@@ -11,6 +11,8 @@ import 'package:prim_fultter_app/components/sub_nav.dart';
 import 'package:prim_fultter_app/components/sales_box.dart';
 import 'package:prim_fultter_app/model/sales_box_model.dart';
 import 'package:prim_fultter_app/components/loading_widget.dart';
+import 'package:prim_fultter_app/components/search_bar.dart';
+import 'package:prim_fultter_app/pages/search_page.dart';
 import 'dart:convert';
 import 'dart:async';
 
@@ -25,12 +27,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List _imageUrls = [
-    'http://pages.ctrip.com/commerce/promote/20180718/yxzy/img/640sygd.jpg',
-    'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
-    'https://dimg04.c-ctrip.com/images/700c10000000pdili7D8B_780_235_57.jpg'
-  ];
-
   double appBarOpacity = 0;
 
   String resultString = "";
@@ -131,19 +127,58 @@ class _HomePageState extends State<HomePage> {
 
   ///构建顶部bar
   Widget _buildTopBar(appBarOpacity) {
-    return Opacity(
-      //和在CSS的属性中的opacity一样设置不透明度的级别
-      opacity: appBarOpacity,
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(color: Colors.white),
-        padding: EdgeInsets.only(top: 20), //padding 距离顶部20
-        child: Center(
-          child: Text('首页'),
+    return Column(
+      children: <Widget>[
+        Container(
+          //设置一个渐变的背景
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Color(0x66000000), Colors.transparent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          )),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            height: 80,
+            decoration: BoxDecoration(
+              color:
+                  Color.fromARGB((appBarOpacity * 255).toInt(), 255, 255, 255),
+            ),
+            child: SearchBar(
+              searchType:
+                  appBarOpacity > 0.2 ? SearchType.homeLight : SearchType.home,
+              inputBoxClick: _jumpToSearch,
+              speakClick: _jumpToSpeak,
+              defultText: '网红打卡地、景点、酒店 美食',
+              leftButtonClick: () {},
+              rightButtonClick: () {},
+            ),
+          ),
         ),
+
+        ///阴影
+        Container(
+          height: appBarOpacity > 0.2 ? 0.5 : 0,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)],
+          ),
+        )
+      ],
+    );
+  }
+
+  _jumpToSearch() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchPage(
+              hint: '网红打卡地、景点、酒店 美食',
+            ),
       ),
     );
   }
+
+  get _jumpToSpeak {}
 
   /// 构建列表
   ListView get _buildListView {
@@ -172,12 +207,6 @@ class _HomePageState extends State<HomePage> {
             salesBoxModel: salesBoxModel,
           ),
         ),
-//        Container(
-//          height: 800,
-//          child: ListTile(
-//            title: Text('hahahah'),
-//          ),
-//        ),
       ],
     );
   }
