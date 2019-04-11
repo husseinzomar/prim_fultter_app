@@ -71,9 +71,12 @@ class _SearchPageState extends State<SearchPage> {
 
           ///自适应布局的宽高
           MediaQuery.removePadding(
-            removeTop: true,///移除顶部的padding
+            removeTop: true,
+
+            ///移除顶部的padding
             context: context,
-            child: Expanded(///自适应宽度
+            child: Expanded(
+              ///自适应宽度
               flex: 1,
               child: ListView.builder(
                 itemCount: searchModel?.data?.length ?? 0,
@@ -232,9 +235,11 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   List<TextSpan> _keyWordSpan(String word, String keyWord) {
+    List<TextSpan> keySpans = [];
+    if (word == null || word.length == 0) return keySpans;
     //截取关键字部分 wordwoc w =  ,ord,oc
     var split = word.split(keyWord);
-    List<TextSpan> keySpans = [];
+     
     TextStyle normalStyle = TextStyle(fontSize: 16, color: Colors.black);
     TextStyle keyStyle = TextStyle(fontSize: 16, color: Colors.orange);
     for (int i = 0; i < split.length; i++) {
