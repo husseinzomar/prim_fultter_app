@@ -47,7 +47,8 @@ const TYPE = [
   'travelgroup'
 ];
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
   List<SearchItem> list;
 
   SearchModel searchModel;
@@ -234,12 +235,13 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  ///关键字富文本
   List<TextSpan> _keyWordSpan(String word, String keyWord) {
     List<TextSpan> keySpans = [];
     if (word == null || word.length == 0) return keySpans;
     //截取关键字部分 wordwoc w =  ,ord,oc
     var split = word.split(keyWord);
-     
+
     TextStyle normalStyle = TextStyle(fontSize: 16, color: Colors.black);
     TextStyle keyStyle = TextStyle(fontSize: 16, color: Colors.orange);
     for (int i = 0; i < split.length; i++) {
@@ -255,4 +257,8 @@ class _SearchPageState extends State<SearchPage> {
     }
     return keySpans;
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

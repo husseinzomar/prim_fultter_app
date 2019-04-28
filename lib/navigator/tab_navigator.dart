@@ -18,7 +18,8 @@ final _activityColor = Colors.blue;
 //通过控制_controllerIndex来控制哪个页面显示
 var _controllerIndex = 0;
 
-class _TabNavigatorState extends State<TabNavigator> {
+class _TabNavigatorState extends State<TabNavigator>
+    {
   //页面控制器 通过调用jumpToPage 实现页面的跳转
   final PageController _controller = PageController(initialPage: 0);
 
@@ -32,118 +33,83 @@ class _TabNavigatorState extends State<TabNavigator> {
     return Scaffold(
       body: PageView(
         controller: _controller,
-        children: <Widget>[//page的页面
+        children: <Widget>[
+          //page的页面
           HomePage(),
-          SearchPage(hideLeft: true,),
+          SearchPage(
+            hideLeft: true,
+          ),
           TravelPage(),
           MinePage(),
         ],
-        onPageChanged: (int index) {//滑动page的监听
-          setState(() {//改变tab状态
+        onPageChanged: (int index) {
+          //滑动page的监听
+          setState(() {
+            //改变tab状态
             _controllerIndex = index;
           });
         },
       ),
+//      IndexedStack(
+//        children: <Widget>[
+//          //page的页面
+//          HomePage(),
+//          SearchPage(
+//            hideLeft: true,
+//          ),
+//          TravelPage(),
+//          MinePage(),
+//        ],
+//        index: _controllerIndex,
+//      ),
+
+      ///     PageView 每次进入页面都会 重新渲染view
+
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _controllerIndex, //当前的index
-          onTap: (index) {//点击tab
-            _controller.jumpToPage(index); //跳转到具体的页面
-            //注意改变_controllerIndex的状态
-            setState(() {
-              _controllerIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,//固定
-          items: [//底部tab图片、字体及颜色
-            homeItem(),
-            searchItem(),
-            travelItem(),
-            mineItem(),
-          ]),
+        currentIndex: _controllerIndex, //当前的index
+        onTap: (index) {
+          //点击tab
+          _controller.jumpToPage(index); //跳转到具体的页面
+          //注意改变_controllerIndex的状态
+          setState(() {
+            _controllerIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed, //固定
+        items: [
+          _bottomItem(Icons.home, "首页", 0),
+          _bottomItem(Icons.search, "搜索", 1),
+          _bottomItem(Icons.near_me, "旅拍", 2),
+          _bottomItem(Icons.supervised_user_circle, "我的", 3),
+        ],
+      ),
     );
   }
+
+
 }
 
-BottomNavigationBarItem mineItem() {
+final List<BottomNavigationBarItem> _bottomWidgets = [];
+
+/// 底部item
+_bottomItem(IconData icon, String text, int index) {
+  print("_controllerIndex:${_controllerIndex} index:${index}");
   return BottomNavigationBarItem(
       icon: Icon(
         //定义默认状态下的图片以及颜色
-        Icons.supervised_user_circle,
+        icon,
         color: _defaultColor,
       ),
       activeIcon: Icon(
         //定义选中状态下的图片以及颜色
-        Icons.supervised_user_circle,
+        icon,
         color: _activityColor,
       ),
       title: Text(
         //定义文字
-        '我的',
+        text,
         style: TextStyle(
-          color: _controllerIndex != 3 ? _defaultColor : _activityColor,
-        ),
-      ));
-}
-
-BottomNavigationBarItem homeItem() {
-  return BottomNavigationBarItem(
-      icon: Icon(
-        //定义默认状态下的图片以及颜色
-        Icons.home,
-        color: _defaultColor,
-      ),
-      activeIcon: Icon(
-        //定义选中状态下的图片以及颜色
-        Icons.home,
-        color: _activityColor,
-      ),
-      title: Text(
-        //定义文字
-        '首页',
-        style: TextStyle(
-          color: _controllerIndex != 0 ? _defaultColor : _activityColor,
-        ),
-      ));
-}
-
-BottomNavigationBarItem searchItem() {
-  return BottomNavigationBarItem(
-      icon: Icon(
-        //定义默认状态下的图片以及颜色
-        Icons.search,
-        color: _defaultColor,
-      ),
-      activeIcon: Icon(
-        //定义选中状态下的图片以及颜色
-        Icons.search,
-        color: _activityColor,
-      ),
-      title: Text(
-        //定义文字
-        '搜索',
-        style: TextStyle(
-          color: _controllerIndex != 1 ? _defaultColor : _activityColor,
-        ),
-      ));
-}
-
-BottomNavigationBarItem travelItem() {
-  return BottomNavigationBarItem(
-      icon: Icon(
-        //定义默认状态下的图片以及颜色
-        Icons.near_me,
-        color: _defaultColor,
-      ),
-      activeIcon: Icon(
-        //定义选中状态下的图片以及颜色
-        Icons.near_me,
-        color: _activityColor,
-      ),
-      title: Text(
-        //定义文字
-        '旅拍',
-        style: TextStyle(
-          color: _controllerIndex != 2 ? _defaultColor : _activityColor,
+          color: _controllerIndex != index ? _defaultColor : _activityColor,
         ),
       ));
 }

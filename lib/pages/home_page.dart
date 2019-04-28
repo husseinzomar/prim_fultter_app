@@ -26,7 +26,8 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   double appBarOpacity = 0;
 
   String resultString = "";
@@ -44,6 +45,10 @@ class _HomePageState extends State<HomePage> {
     _handleRefresh();
   }
 
+  @override
+  // implement wantKeepAlive true 不会重新渲染界面
+  bool get wantKeepAlive => true;
+
   Future<Null> _handleRefresh() async {
     //一种方式
 //    HomeDao.fetch().then((result) {
@@ -54,7 +59,6 @@ class _HomePageState extends State<HomePage> {
 //      resultString = e.toString();
 //      print("homeDao:" + resultString);
 //    });
-
     //另一种方式
     try {
       HomeModel model = await HomeDao.fetch();
@@ -76,6 +80,7 @@ class _HomePageState extends State<HomePage> {
     return null;
   }
 
+  ///滚动的距离
   _scroll(offest) {
     double alpha = offest / APPBAR_SCROLL_OFFSET;
     if (alpha < 0) {
