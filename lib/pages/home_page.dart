@@ -13,6 +13,7 @@ import 'package:prim_fultter_app/model/sales_box_model.dart';
 import 'package:prim_fultter_app/components/loading_widget.dart';
 import 'package:prim_fultter_app/components/search_bar.dart';
 import 'package:prim_fultter_app/pages/search_page.dart';
+import 'package:prim_fultter_app/pages/speak_page.dart';
 import 'dart:convert';
 import 'dart:async';
 
@@ -183,7 +184,10 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  get _jumpToSpeak {}
+   _jumpToSpeak() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SpeakPage()));
+  }
 
   /// 构建列表
   ListView get _buildListView {

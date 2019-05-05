@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:prim_fultter_app/model/search_model.dart';
 import 'package:flutter/services.dart';
+import 'package:prim_fultter_app/pages/speak_page.dart';
 
 ///首页页面
 class SearchPage extends StatefulWidget {
@@ -162,7 +163,10 @@ class _SearchPageState extends State<SearchPage>
           },
           onChanged: _textChanged,
           rightButtonClick: () {},
-          speakClick: () {},
+          speakClick: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SpeakPage()));
+          },
           searchType: SearchType.normal,
         ),
       ),
